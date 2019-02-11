@@ -1,0 +1,10 @@
+application:
+  email-use-ssl: true
+  email-port: 465
+  email-host: your.emailhost.com
+  email-username: your.email@username.com
+  email-password: YourPassword
+
+logging.level.root: WARN
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR

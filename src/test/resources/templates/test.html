@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Test template</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<span th:if="${hasSeveralMembers}" th:text="'Dear ' + ${surnames} + ' (' + ${firstNames} + ')'"></span>
+<span th:unless="${hasSeveralMembers}" th:text="'Beloved ' + ${firstNames} + ' ' + ${surnames}"></span>
+
+<span th:text="'We are honoured to have you as members of type ' + ${type} + '!'"></span>
+<span th:if="${hasPaid}">Thx for paying</span><span th:unless="${hasPaid}">plz pay &gt;:(</span>
+<span th:if="${street} == '' or ${address} == ''">Address missing</span>
+<span th:if="${street} != '' and ${address} != ''" th:text="'We have registered that you live on ' + ${street} + ', ' + ${address}"></span>
+<span th:if="${telephone} == '' and ${mobile} == ''">Telephone missing</span>
+<span th:if="${telephone} != ''" th:text="'Telephone number: ' + ${telephone}"></span>
+<span th:if="${mobile} != ''" th:text="'Mobile phone number: ' + ${mobile}"></span>
+<span th:if="${email} == ''">Email missing</span>
+<span th:if="${email} != ''" th:text="'Email: ' + ${email}"></span>
+
+<th:block th:switch="${type}">
+  <p th:case="'Hedersmedlem'" th:text="'Thank you for all your work, you owe us nothing.'"></p>
+  <p th:case="'Ungdom'" th:text="'much wow. ur such young! amaze. 100 sek plz.'"></p>
+  <p th:case="'Student'" th:text="'Despite being a ' + ${type} + ', you still need to pay up. 200 sek.'"></p>
+  <p th:case="'Enskild medlem'" th:text="'Find yourself a family and pay us 300 sek.'"></p>
+  <p th:case="'Familj'" th:text="'You and all your little kids in your ' + ${type} + ' can join us for 400 sek.'"></p>
+  <p th:case="'Juridisk person'" th:text="'A company like yours can afford to pay 500 sek.'"></p>
+</th:block>
+
+
+<table>
+  <tr><th>First name</th><th>Surname</th><th>Street</th><th>Address</th><th>Telephone</th><th>Mobile</th><th>E-mail</th></tr>
+  <tr th:each="member : ${members}">
+    <td th:if="${member.firstName} != ''" th:text="${member.firstName}"></td><td th:if="${member.firstName} == ''" th:text="'&nbsp;'"></td>
+    <td th:if="${member.surname}   != ''" th:text="${member.surname}">  </td><td th:if="${member.surname}   == ''" th:text="'&nbsp;'"></td>
+    <td th:if="${member.street}    != ''" th:text="${member.street}">   </td><td th:if="${member.street}    == ''" th:text="'&nbsp;'"></td>
+    <td th:if="${member.address}   != ''" th:text="${member.address}">  </td><td th:if="${member.address}   == ''" th:text="'&nbsp;'"></td>
+    <td th:if="${member.telephone} != ''" th:text="${member.telephone}"></td><td th:if="${member.telephone} == ''" th:text="'&nbsp;'"></td>
+    <td th:if="${member.mobile}    != ''" th:text="${member.mobile}">   </td><td th:if="${member.mobile}    == ''" th:text="'&nbsp;'"></td>
+    <td th:if="${member.email}     != ''" th:text="${member.email}">    </td><td th:if="${member.email}     == ''" th:text="'&nbsp;'"></td>
+  </tr>
+</table>
+
+</body>
+</html>

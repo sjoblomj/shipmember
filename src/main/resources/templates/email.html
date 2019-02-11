@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <title>Inbjudan årsmöte</title>
+</head>
+<body>
+
+<th:block th:utext="'<img src=URL_TO_LOGO/' + ${householdNumber} + '.jpg />'"/>
+
+
+<p th:if="${hasSeveralMembers}" th:text="'Tjära familjen ' + ${surnames} + ','"></p>
+<p th:unless="${hasSeveralMembers}" th:text="'Tjära ' + ${firstNames} + ','"></p>
+
+<p th:if="${hasSeveralMembers}" th:text="'Ni är inbjudna till Årsmöte för Sällskapet Vikingatida Skepp.'"></p>
+<p th:unless="${hasSeveralMembers}" th:text="'Du är inbjuden till Årsmöte för Sällskapet Vikingatida Skepp.'"></p>
+
+<p>Tid: <b>Söndag 2019-03-03, klockan 12:00</b><br />
+Plats: <b>Klubb Maritim, Kajutan</b> (Ingång: <a href="https://www.vidfamne.se/wp-content/uploads/2018/02/sockerbruket.jpg" target="_blank">bild</a>)<br />
+Adress: <b><a href="https://www.openstreetmap.org/?mlat=57.6891&mlon=11.9060#map=16/57.6891/11.9060" target="_blank">Sockerbruket 17, Göteborg</a></b></p>
+
+<p>På agendan står bland annat inval till styrelsen. Preliminär dagordning finns <a href="https://docs.google.com/document/d/14N6l_fQstrtI62RROKd2aP4987Gc-ERsdpi3WF9LdRs/edit?usp=sharing" target="_blank">här</a>. Vänligen skicka in motioner till <a href="mailto:kontakt@apabepa.cepa">kontakt@apabepa.cepa</a> senast 17/2.</p>
+
+<p>Det kommer att bjudas på soppa (vegetariskt alternativ erbjuds vid förfrågan), kaffe och liten kaka. För att kunna planera maten så ber vi dig att anmäla dig till <a href="mailto:kontakt@apabepa.cepa">kontakt@apabepa.cepa</a> senast 27/2.</p>
+<br />
+
+<th:block th:switch="${type}">
+<p th:case="'Ungdom'" th:utext="'Föreningen existerar tack vare medlemmar som du. Om du inte redan gjort så, så ber vi dig att betala in medlemsavgift. För att förnya ditt medlemskap som Ungdom (till och med 19 år), vänligen betala in <b>95&nbsp;kr</b>. Swish-nummer: <b>1234&nbsp;018&nbsp;495</b>. Plusgiro: <b>68&nbsp;03&nbsp;83&nbsp;–&nbsp;7</b>. Ange namn på inbetalningen!'"></p>
+<p th:case="'Enskild medlem'" th:utext="'Föreningen existerar tack vare medlemmar som du. Om du inte redan gjort så, så ber vi dig att betala in medlemsavgift. För att förnya ditt medlemskap som Enskild medlem, vänligen betala in <b>295&nbsp;kr</b>. Swish-nummer: <b>1234&nbsp;018&nbsp;495</b>. Plusgiro: <b>68&nbsp;03&nbsp;83&nbsp;–&nbsp;7</b>. Ange namn på inbetalningen!'"></p>
+<p th:case="'Familj'" th:utext="'Föreningen existerar tack vare medlemmar som ni. Om ni inte redan gjort så, så ber vi er att betala in medlemsavgift. För att förnya ert medlemskap som Familj, vänligen betala in <b>395&nbsp;kr</b>. Swish-nummer: <b>1234&nbsp;018&nbsp;495</b>. Plusgiro: <b>68&nbsp;03&nbsp;83&nbsp;–&nbsp;7</b>. Ange namn på inbetalningen!'"></p>
+<p th:case="'Juridisk person'" th:utext="'Föreningen existerar tack vare medlemmar som ni. Om ni inte redan gjort så, så ber vi er att betala in medlemsavgift. För att förnya ert medlemskap som Juridisk person, vänligen betala in <b>500&nbsp;kr</b>. Swish-nummer: <b>1234&nbsp;018&nbsp;495</b>. Plusgiro: <b>68&nbsp;03&nbsp;83&nbsp;–&nbsp;7</b>. Ange namn på inbetalningen!'"></p>
+</th:block>
+
+<p>Slutligen så ber vi om hjälp för att hålla vårt medlemsregister riktigt. Vänligen mejla <a href="mailto:medlemsregistret@apabepa.cepa">medlemsregistret@apabepa.cepa</a> om något av följande inte stämmer:</p>
+
+<p>Namn: <b th:text="${firstNames}"></b> <b th:text="${surnames}"></b><br />
+<th:block th:if="${street} == '' or ${address} == ''" th:utext="'<b>Adress saknas</b>'" />
+<th:block th:if="${street} != '' and ${address} != ''" th:utext="'Adress: <b>' + ${street} + ', ' + ${address} + '</b>'" /><br />
+<th:block th:if="${telephone} == '' and ${mobile} == ''" th:utext="'<b>Telefon saknas</b><br />'" />
+<th:block th:if="${telephone} != ''" th:utext="'Telefon: <b>' + ${telephone} + '</b><br />'" />
+<th:block th:if="${mobile} != ''" th:utext="'Mobil: <b>' + ${mobile} + '</b><br />'" />
+<th:block th:if="${email} == ''" th:utext="'<b>E-post saknas</b>'" />
+<th:block th:if="${email} != ''" th:utext="'E-post: <b>' + ${email} + '</b>'" />
+</p>
+
+<p>Vid frågor, mejla <a href="mailto:kontakt@apabepa.cepa">kontakt@apabepa.cepa</a> eller ring ordförande Johan: 0700-12 34 56</p>
+
+<p>Tack för ditt medlemskap och väl mött på årsmötet,<br />
+Sällskapet Vikingatida Skepp</p>
+
+</body>
+</html>
