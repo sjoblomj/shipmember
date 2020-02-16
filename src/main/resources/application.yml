@@ -4,6 +4,7 @@ application:
   email-host: your.emailhost.com
   email-username: your.email@username.com
   email-password: YourPassword
+  delay-between-emails: 15
 
 logging.level.root: WARN
 logging.level.org.springframework.web: DEBUG

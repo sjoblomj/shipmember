@@ -17,4 +17,5 @@ class ApplicationSettings {
   var emailPort: Int by Delegates.notNull()
   lateinit var emailUsername: String
   lateinit var emailPassword: String
+  var delayBetweenEmails: Int by Delegates.notNull()
 }

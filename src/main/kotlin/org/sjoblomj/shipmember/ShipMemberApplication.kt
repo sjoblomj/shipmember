@@ -21,7 +21,9 @@ class ShipMemberApplication(private val applicationSettings: ApplicationSettings
         applicationSettings.emailHost,
         applicationSettings.emailPort,
         applicationSettings.emailUsername,
-        applicationSettings.emailPassword)
+        applicationSettings.emailPassword,
+        applicationSettings.delayBetweenEmails
+  )
 
   companion object {
     @JvmStatic

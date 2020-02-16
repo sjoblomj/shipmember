@@ -6,6 +6,7 @@ import org.sjoblomj.shipmember.outputters.createLatexFile
 import org.sjoblomj.shipmember.outputters.renderHtml
 import org.sjoblomj.shipmember.outputters.sendEmail
 import org.sjoblomj.shipmember.parsers.parseFile
+import java.util.concurrent.TimeUnit
 
 private val log = KotlinLogging.logger {}
 
@@ -44,6 +45,9 @@ private fun sendEmail(emailSettings: EmailSettings, household: Household) {
   val recipientName = if (household.hasSeveralMembers()) "$surnames ($firstNames)" else "$firstNames $surnames"
 
   val emailContent = renderHtml(household)
+
   log.debug { "Sending email to $recipientName" }
   sendEmail(emailSettings, household.getFirstEmail(), emailContent)
+
+  TimeUnit.SECONDS.sleep(emailSettings.delayBetweenEmails.toLong())
 }
