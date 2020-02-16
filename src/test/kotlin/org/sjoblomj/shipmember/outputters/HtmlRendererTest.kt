@@ -22,7 +22,7 @@ class HtmlRendererTest {
   @Test fun `Family -- All contact forms`() {
     val output = renderHtml(household, testTemplate)
 
-    assertTrue(output.contains("Dear Bepa, Fepa, Apa (Apa, Bepa, Cepa, Depa Epa)"))
+    assertTrue(output.contains("Dear Bepa, Fepa, Apa (Apa, Bepa, Cepa, Depa Epa) of household number 1"))
     assertTrue(output.contains("We are honoured to have you as members of type Familj!"))
     assertTrue(output.contains("plz pay &gt;:("))
     assertTrue(output.contains("We have registered that you live on Apabepastraße 71, 123 City"))

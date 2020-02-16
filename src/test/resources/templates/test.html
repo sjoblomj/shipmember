@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<span th:if="${hasSeveralMembers}" th:text="'Dear ' + ${surnames} + ' (' + ${firstNames} + ')'"></span>
-<span th:unless="${hasSeveralMembers}" th:text="'Beloved ' + ${firstNames} + ' ' + ${surnames}"></span>
+<span th:if="${hasSeveralMembers}" th:text="'Dear ' + ${surnames} + ' (' + ${firstNames} + ') of household number ' + ${householdNumber}"></span>
+<span th:unless="${hasSeveralMembers}" th:text="'Beloved ' + ${firstNames} + ' ' + ${surnames} + ' of household number ' + ${householdNumber}"></span>
 
 <span th:text="'We are honoured to have you as members of type ' + ${type} + '!'"></span>
 <span th:if="${hasPaid}">Thx for paying</span><span th:unless="${hasPaid}">plz pay &gt;:(</span>
