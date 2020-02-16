@@ -5,7 +5,3 @@ application:
   email-username: your.email@username.com
   email-password: YourPassword
   delay-between-emails: 15
-
-logging.level.root: WARN
-logging.level.org.springframework.web: DEBUG
-logging.level.org.hibernate: ERROR
