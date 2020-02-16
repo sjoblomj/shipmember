@@ -1,7 +1,6 @@
 package org.sjoblomj.shipmember.parsers
 
 import org.junit.Test
-import java.util.Arrays.asList
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlin.test.fail
@@ -99,7 +98,7 @@ class MemberParserTests {
 
   @Test fun `Translation of all member types`() {
 
-    val list = asList(
+    val list = listOf(
         Pair("stu", "Student"),
         Pair("ung", "Ungdom"),
         Pair("hed", "Hedersmedlem"),

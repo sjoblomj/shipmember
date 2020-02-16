@@ -1,7 +1,6 @@
 package org.sjoblomj.shipmember.dtos
 
 import org.junit.Test
-import java.util.Arrays.asList
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -11,7 +10,7 @@ class HouseholdTests {
 
   private val member = Member(1, "Apa", "Bepa", "Familj", "Apabepastraße 71", "123 City", "", "1234", "cepa@bepa.apa", "0")
 
-  private val household = Household(asList(
+  private val household = Household(listOf(
       member.copy(firstName = "Apa", street = "", address = "", telephone = "", mobile = "", email = ""),
       member.copy(firstName = "Bepa"),
       member.copy(firstName = "Cepa", surname = "Fepa", mobile = "2345", email = ""),
@@ -19,7 +18,7 @@ class HouseholdTests {
   ))
 
   @Test fun `Can create household of one member`() {
-    Household(asList(member.copy(type = "Hedersmedlem")))
+    Household(listOf(member.copy(type = "Hedersmedlem")))
   }
 
   @Test fun `Household with no members`() {
@@ -33,7 +32,7 @@ class HouseholdTests {
     val street2 = "Different road 2"
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", street = street1),
           member.copy(firstName = "Bepa", street = street2)
       ))
@@ -45,7 +44,7 @@ class HouseholdTests {
     val city2 = "0551 Oslo"
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", address = city1),
           member.copy(firstName = "Bepa", address = city2)
       ))
@@ -57,7 +56,7 @@ class HouseholdTests {
     val hasPaid2 = "0"
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", hasPaid = hasPaid1),
           member.copy(firstName = "Bepa", hasPaid = hasPaid2)
       ))
@@ -69,7 +68,7 @@ class HouseholdTests {
     val type2 = "Hedersmedlem"
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", type = type1),
           member.copy(firstName = "Bepa", type = type2)
       ))
@@ -81,7 +80,7 @@ class HouseholdTests {
     val householdNo2 = 2
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", householdNo = householdNo1),
           member.copy(firstName = "Bepa", householdNo = householdNo2)
       ))
@@ -93,7 +92,7 @@ class HouseholdTests {
     val type = "Enskild medlem"
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", type = type),
           member.copy(firstName = "Bepa", type = type)
       ))
@@ -105,7 +104,7 @@ class HouseholdTests {
     val name2 = ""
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = name1),
           member.copy(firstName = name2)
       ))
@@ -117,7 +116,7 @@ class HouseholdTests {
     val name2 = ""
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", surname = name1),
           member.copy(firstName = "Bepa", surname = name2)
       ))
@@ -129,7 +128,7 @@ class HouseholdTests {
     val type2 = ""
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", type = type1),
           member.copy(firstName = "Bepa", type = type2)
       ))
@@ -140,7 +139,7 @@ class HouseholdTests {
     val street = ""
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", street = street),
           member.copy(firstName = "Bepa", street = street)
       ))
@@ -151,7 +150,7 @@ class HouseholdTests {
     val address = ""
 
     assertFailsWith(IllegalArgumentException::class) {
-      Household(asList(
+      Household(listOf(
           member.copy(firstName = "Apa", address = address),
           member.copy(firstName = "Bepa", address = address)
       ))
@@ -191,20 +190,20 @@ class HouseholdTests {
   }
 
   @Test fun `Finds telephone`() {
-    val fam = Household(asList(member.copy(telephone = "71")))
+    val fam = Household(listOf(member.copy(telephone = "71")))
     assertEquals("71", fam.getFirstTelephone())
   }
 
   @Test fun `Finds all first names`() {
-    assertEquals(asList("Apa", "Bepa", "Cepa", "Depa Epa"), household.getAllFirstNames())
+    assertEquals(listOf("Apa", "Bepa", "Cepa", "Depa Epa"), household.getAllFirstNames())
   }
 
   @Test fun `Finds all surnames`() {
-    assertEquals(asList("Bepa", "Fepa", "Apa"), household.getAllSurnames())
+    assertEquals(listOf("Bepa", "Fepa", "Apa"), household.getAllSurnames())
   }
 
   @Test fun `Finds single surname`() {
-    val fam = Household(asList(
+    val fam = Household(listOf(
         member.copy(firstName = "Apa", surname = "Bepa"),
         member.copy(firstName = "Bepa", surname = "Bepa"),
         member.copy(firstName = "Cepa", surname = "Bepa"),
@@ -212,7 +211,7 @@ class HouseholdTests {
         member.copy(firstName = "Epa Fepa", surname = "Bepa")
     ))
 
-    assertEquals(asList("Bepa"), fam.getAllSurnames())
+    assertEquals(listOf("Bepa"), fam.getAllSurnames())
   }
 
   @Test fun `Household has several members`() {
@@ -220,7 +219,7 @@ class HouseholdTests {
   }
 
   @Test fun `Household has one member`() {
-    val fam = Household(asList(member.copy(type = "Hedersmedlem")))
+    val fam = Household(listOf(member.copy(type = "Hedersmedlem")))
 
     assertFalse(fam.hasSeveralMembers())
   }

@@ -6,8 +6,6 @@ import org.junit.Test
 import org.sjoblomj.shipmember.dtos.Household
 import org.sjoblomj.shipmember.dtos.Member
 import java.io.File
-import java.util.*
-import java.util.Arrays.asList
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -18,7 +16,7 @@ class LatexOutputterTests {
 
   private val member = Member(1, "Apa", "Bepa", "Enskild medlem", "Apabepastraße 71", "123 City", "71", "1234", "cepa@bepa.apa", "0")
 
-  private val household = Household(Arrays.asList(
+  private val household = Household(listOf(
       member.copy(firstName = "Apa", type = "Familj", street = "", address = "", telephone = "71", mobile = "", email = ""),
       member.copy(firstName = "Bepa", type = "Familj"),
       member.copy(firstName = "Cepa", surname = "Fepa", type = "Familj", mobile = "2345", email = ""),
@@ -34,7 +32,7 @@ class LatexOutputterTests {
   }
 
   @Test fun `Single member with all values`() {
-    createLatexFile(Household(asList(member)), outputDirectory)
+    createLatexFile(Household(listOf(member)), outputDirectory)
 
     val content = readFileContent()
     assertTrue(content.contains("${latexCommand}memberfirstNames}{Apa}"))
@@ -53,7 +51,7 @@ class LatexOutputterTests {
 
   @Test fun `Single member with minimum amount of values`() {
     val minMember = member.copy(telephone = "", mobile = "", email = "", hasPaid = "true")
-    createLatexFile(Household(asList(minMember)), outputDirectory)
+    createLatexFile(Household(listOf(minMember)), outputDirectory)
 
     val content = readFileContent()
     assertTrue(content.contains("${latexCommand}memberfirstNames}{Apa}"))
@@ -89,7 +87,7 @@ class LatexOutputterTests {
   }
 
   @Test fun `Family with minimum amount of values`() {
-    val household = Household(asList(
+    val household = Household(listOf(
         member.copy(firstName = "Apa", type = "Familj", street = "", address = "", telephone = "", mobile = "", email = ""),
         member.copy(firstName = "Bepa", type = "Familj", telephone = "", mobile = "", email = ""),
         member.copy(firstName = "Cepa", surname = "Fepa", type = "Familj", telephone = "", mobile = "", email = ""),
@@ -113,7 +111,7 @@ class LatexOutputterTests {
   }
 
   @Test fun `Single member with weird name`() {
-    createLatexFile(Household(asList(member.copy(firstName = "Apa  / Bepa @ cepa | Östen", surname = "Ax:son Øysteinsson Ängå"))), outputDirectory)
+    createLatexFile(Household(listOf(member.copy(firstName = "Apa  / Bepa @ cepa | Östen", surname = "Ax:son Øysteinsson Ängå"))), outputDirectory)
 
     val content = readFileContent()
     assertTrue(content.contains("${latexCommand}memberfirstNames}{Apa  / Bepa @ cepa | Östen}"))
@@ -123,7 +121,7 @@ class LatexOutputterTests {
   }
 
   @Test fun `Single member with underscore in email`() {
-    createLatexFile(Household(asList(member.copy(email = "Apa_Bepa@cepa.depa"))), outputDirectory)
+    createLatexFile(Household(listOf(member.copy(email = "Apa_Bepa@cepa.depa"))), outputDirectory)
 
     val content = readFileContent()
     assertTrue(content.contains("${latexCommand}memberfirstNames}{Apa}"))
@@ -141,7 +139,7 @@ class LatexOutputterTests {
   }
 
   @Test fun `Log file and auxiliaries are deleted on success`() {
-    createLatexFile(Household(asList(member)), outputDirectory)
+    createLatexFile(Household(listOf(member)), outputDirectory)
 
     assertTrue(File("$outputDirectory/Apa_Bepa.pdf").exists())
     assertFalse(File("$outputDirectory/Apa_Bepa.log").exists())
@@ -149,7 +147,7 @@ class LatexOutputterTests {
   }
 
   @Test fun `Single member with illegal characters -- log file and auxiliaries are not deleted`() {
-    createLatexFile(Household(asList(member.copy(firstName = "Apa}"))), outputDirectory)
+    createLatexFile(Household(listOf(member.copy(firstName = "Apa}"))), outputDirectory)
 
     assertFalse(File("$outputDirectory/Apa_Bepa.pdf").exists())
     assertTrue(File("$outputDirectory/Apa_Bepa.log").exists())

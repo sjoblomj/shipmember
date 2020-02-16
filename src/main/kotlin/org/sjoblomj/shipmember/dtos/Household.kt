@@ -1,6 +1,5 @@
 package org.sjoblomj.shipmember.dtos
 
-import java.util.Arrays.asList
 import kotlin.reflect.KProperty1
 
 class Household(val members: List<Member>) {
@@ -9,7 +8,7 @@ class Household(val members: List<Member>) {
     if (members.isEmpty()) {
       throw IllegalArgumentException("Encountered a household with no members!")
     }
-    val valuesThatMustNotDifferWithinHousehold = asList(
+    val valuesThatMustNotDifferWithinHousehold = listOf(
         Pair(Member::householdNo, "householdNo"),
         Pair(Member::street, "street"),
         Pair(Member::address, "address"),
@@ -18,7 +17,7 @@ class Household(val members: List<Member>) {
     )
     assertOneValue(valuesThatMustNotDifferWithinHousehold)
 
-    val valuesThatMustNotBeBlank = asList(
+    val valuesThatMustNotBeBlank = listOf(
         Pair(Member::firstName, "first name"),
         Pair(Member::surname, "surname"),
         Pair(Member::type, "membership type")

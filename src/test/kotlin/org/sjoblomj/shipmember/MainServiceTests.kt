@@ -11,7 +11,6 @@ import org.sjoblomj.shipmember.dtos.EmailSettings
 import org.sjoblomj.shipmember.dtos.MEMBERTYPES
 import org.sjoblomj.shipmember.dtos.OUTPUTTYPES
 import java.io.File
-import java.util.Arrays.asList
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
@@ -46,8 +45,8 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf"))
+    assertEquals(listOf("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf"))
   }
 
   @Test fun `Only non payers - All member types - PDF only`() {
@@ -57,7 +56,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf"))
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf"))
   }
 
   @Test fun `Only non payers - All member types - PDF and email`() {
@@ -66,18 +65,18 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf"))
+    assertEquals(listOf("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf"))
   }
 
   @Test fun `Only non payers - All member types - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, asList(6, 7))
+    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, listOf(6, 7))
 
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf"))
   }
 
 
@@ -88,7 +87,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf"))
   }
 
   @Test fun `Only non payers - Members without email - PDF only`() {
@@ -98,7 +97,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf"))
   }
 
   @Test fun `Only non payers - Members without email - PDF and email`() {
@@ -108,17 +107,17 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf"))
   }
 
   @Test fun `Only non payers - Members without email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, asList(7, 9))
+    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(7, 9))
 
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf"))
   }
 
 
@@ -128,8 +127,8 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList())
+    assertEquals(listOf("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf())
   }
 
   @Test fun `Only non payers - Members with email - PDF only`() {
@@ -139,7 +138,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf"))
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf"))
   }
 
   @Test fun `Only non payers - Members with email - PDF and email`() {
@@ -148,18 +147,18 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf"))
+    assertEquals(listOf("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf"))
   }
 
   @Test fun `Only non payers - Members with email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, asList(6, 7))
+    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(6, 7))
 
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList())
+    assertOutputDirectoryContains(listOf())
   }
 
 
@@ -172,8 +171,8 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
   }
 
   @Test fun `Not only non payers - All member types - PDF only`() {
@@ -183,7 +182,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
         "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
   }
 
@@ -193,19 +192,19 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
         "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
   }
 
   @Test fun `Not only non payers - All member types - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, asList(1, 7, 9))
+    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, listOf(1, 7, 9))
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("maal@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
+    assertEquals(listOf("maal@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
         "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf"))
   }
 
@@ -217,7 +216,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
   }
 
   @Test fun `Not only non payers - Members without email - PDF only`() {
@@ -227,7 +226,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
   }
 
   @Test fun `Not only non payers - Members without email - PDF and email`() {
@@ -237,17 +236,17 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
+    assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
   }
 
   @Test fun `Not only non payers - Members without email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, asList(9))
+    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(9))
 
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("GubbGunnar_Gammelgubbe.pdf"))
+    assertOutputDirectoryContains(listOf("GubbGunnar_Gammelgubbe.pdf"))
   }
 
 
@@ -257,8 +256,8 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList())
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf())
   }
 
   @Test fun `Not only non payers - Members with email - PDF only`() {
@@ -268,7 +267,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
   }
 
   @Test fun `Not only non payers - Members with email - PDF and email`() {
@@ -277,18 +276,18 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
   }
 
   @Test fun `Not only non payers - Members with email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, asList(1, 8))
+    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(1, 8))
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(asList("maal@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(asList("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf"))
+    assertEquals(listOf("maal@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf"))
   }
 
 

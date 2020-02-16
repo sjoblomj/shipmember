@@ -4,8 +4,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.sjoblomj.shipmember.dtos.Household
 import org.sjoblomj.shipmember.dtos.Member
-import java.util.*
-import java.util.Arrays.asList
 import kotlin.test.assertFalse
 
 class HtmlRendererTest {
@@ -14,7 +12,7 @@ class HtmlRendererTest {
 
   private val member = Member(1, "Apa", "Bepa", "Familj", "Apabepastraße 71", "123 City", "71", "1234", "cepa@bepa.apa", "0")
 
-  private val household = Household(Arrays.asList(
+  private val household = Household(listOf(
       member.copy(firstName = "Apa", street = "", address = "", telephone = "71", mobile = "", email = ""),
       member.copy(firstName = "Bepa"),
       member.copy(firstName = "Cepa", surname = "Fepa", mobile = "2345", email = ""),
@@ -71,7 +69,7 @@ class HtmlRendererTest {
   }
 
   @Test fun `Member of type Hedermedlem`() {
-    val output = renderHtml(Household(asList(member.copy(type = "Hedersmedlem"))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(type = "Hedersmedlem"))), testTemplate)
 
     assertTrue(output.contains("Beloved Apa Bepa"))
     assertTrue(output.contains("We are honoured to have you as members of type Hedersmedlem!"))
@@ -79,7 +77,7 @@ class HtmlRendererTest {
   }
 
   @Test fun `Member of type Ungdom`() {
-    val output = renderHtml(Household(asList(member.copy(type = "Ungdom"))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(type = "Ungdom"))), testTemplate)
 
     assertTrue(output.contains("Beloved Apa Bepa"))
     assertTrue(output.contains("We are honoured to have you as members of type Ungdom!"))
@@ -87,7 +85,7 @@ class HtmlRendererTest {
   }
 
   @Test fun `Member of type Student`() {
-    val output = renderHtml(Household(asList(member.copy(type = "Student"))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(type = "Student"))), testTemplate)
 
     assertTrue(output.contains("Beloved Apa Bepa"))
     assertTrue(output.contains("We are honoured to have you as members of type Student!"))
@@ -95,7 +93,7 @@ class HtmlRendererTest {
   }
 
   @Test fun `Member of type Enskild medlem`() {
-    val output = renderHtml(Household(asList(member.copy(type = "Enskild medlem"))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(type = "Enskild medlem"))), testTemplate)
 
     assertTrue(output.contains("Beloved Apa Bepa"))
     assertTrue(output.contains("We are honoured to have you as members of type Enskild medlem!"))
@@ -103,7 +101,7 @@ class HtmlRendererTest {
   }
 
   @Test fun `Member of type Juridisk person`() {
-    val output = renderHtml(Household(asList(member.copy(type = "Juridisk person"))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(type = "Juridisk person"))), testTemplate)
 
     assertTrue(output.contains("Beloved Apa Bepa"))
     assertTrue(output.contains("We are honoured to have you as members of type Juridisk person!"))
@@ -111,27 +109,27 @@ class HtmlRendererTest {
   }
 
   @Test fun `No e-mail`() {
-    val output = renderHtml(Household(asList(member.copy(email = ""))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(email = ""))), testTemplate)
 
     assertTrue(output.contains("Email missing"))
   }
 
   @Test fun `No mobile`() {
-    val output = renderHtml(Household(asList(member.copy(mobile = ""))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(mobile = ""))), testTemplate)
 
     assertTrue(output.contains("Telephone number: 71"))
     assertFalse(output.contains("Mobile phone number:"))
   }
 
   @Test fun `No telephone`() {
-    val output = renderHtml(Household(asList(member.copy(telephone = ""))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(telephone = ""))), testTemplate)
 
     assertTrue(output.contains("Mobile phone number: 1234"))
     assertFalse(output.contains("Telephone number:"))
   }
 
   @Test fun `No telephone or mobile`() {
-    val output = renderHtml(Household(asList(member.copy(telephone = "", mobile = ""))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(telephone = "", mobile = ""))), testTemplate)
 
     assertTrue(output.contains("Telephone missing"))
     assertFalse(output.contains("Mobile phone number:"))
@@ -139,7 +137,7 @@ class HtmlRendererTest {
   }
 
   @Test fun `Has paid`() {
-    val output = renderHtml(Household(asList(member.copy(hasPaid = "true"))), testTemplate)
+    val output = renderHtml(Household(listOf(member.copy(hasPaid = "true"))), testTemplate)
 
     assertTrue(output.contains("Thx for paying"))
     assertFalse(output.contains("plz pay &gt;:("))

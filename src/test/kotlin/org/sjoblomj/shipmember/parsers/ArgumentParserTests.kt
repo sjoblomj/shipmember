@@ -3,7 +3,6 @@ package org.sjoblomj.shipmember.parsers
 import org.junit.Test
 import org.sjoblomj.shipmember.dtos.MEMBERTYPES
 import org.sjoblomj.shipmember.dtos.OUTPUTTYPES
-import java.util.Arrays.asList
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
@@ -132,19 +131,19 @@ class ArgumentParserTests {
   @Test fun `Household numbers with one number`() {
     val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--household-numbers", "71"))
 
-    assertEquals(asList(71), args.householdNumbers)
+    assertEquals(listOf(71), args.householdNumbers)
   }
 
   @Test fun `Household numbers with one number ending in comma`() {
     val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--household-numbers", "71,"))
 
-    assertEquals(asList(71), args.householdNumbers)
+    assertEquals(listOf(71), args.householdNumbers)
   }
 
   @Test fun `Household numbers`() {
     val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--household-numbers", "1,2,71,38"))
 
-    assertEquals(asList(1, 2, 71, 38), args.householdNumbers)
+    assertEquals(listOf(1, 2, 71, 38), args.householdNumbers)
   }
 
   @Test fun `UnknownArgument throws Exception`() {
