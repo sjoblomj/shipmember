@@ -18,6 +18,7 @@ fun parseArgs(args : List<String>): Arguments {
 
   var inputFile: String? = null
   var outputDir: String? = null
+  var emailSubject = ""
   var onlyNonPayers = false
   var householdNumbers: List<Int> = emptyList()
 
@@ -25,7 +26,7 @@ fun parseArgs(args : List<String>): Arguments {
   var outputTypes = OUTPUTTYPES.PDF_AND_EMAIL
 
   var index = -1
-  for (i in 0 until args.size) {
+  for (i in args.indices) {
     index += 1
 
     if (index >= args.size) {
@@ -40,6 +41,11 @@ fun parseArgs(args : List<String>): Arguments {
       "--output" -> {
         outputDir = tryParsingOutput(args, index + 1)
         index += 1
+      }
+      "--email-subject" -> {
+        val pair = tryParsingEmailSubject(args, index + 1)
+        emailSubject = pair.first
+        index += pair.second
       }
       "--household-numbers" -> {
         householdNumbers = tryParsingHouseholdNumbers(args, index + 1)
@@ -77,7 +83,7 @@ fun parseArgs(args : List<String>): Arguments {
     printHelpMessage()
     throw IllegalArgumentException("You need to specify an input file ('--input <file>') and output folder ('--output <folder>')")
   }
-  return Arguments(inputFile, outputDir, onlyNonPayers, memberTypes, outputTypes, householdNumbers)
+  return Arguments(inputFile, outputDir, emailSubject, onlyNonPayers, memberTypes, outputTypes, householdNumbers)
 }
 
 private fun tryParsingInput(args: List<String>, index: Int): String {
@@ -105,9 +111,25 @@ private fun tryParsingOutput(args: List<String>, index: Int): String {
   return args[index]
 }
 
+private fun tryParsingEmailSubject(args: List<String>, index: Int): Pair<String, Int> {
+  if (noMoreArguments(args, index) || argumentStartsWithDashes(args, index)) {
+    throw IllegalArgumentException("The argument following '--email-subject' must be a valid String")
+  }
+  if (!args[index].startsWith("\"")) {
+    return Pair(args[index], 1)
+  } else {
+    for (i in index until args.size) {
+      if (args[i].endsWith("\"")) {
+        return Pair(args.subList(index, i + 1).joinToString(" ").removeSurrounding("\""), i - index + 1)
+      }
+    }
+  }
+  throw IllegalArgumentException("The argument following '--email-subject' must be a valid String, enclosed \\\"like this\\\"")
+}
+
 fun tryParsingHouseholdNumbers(args: List<String>, index: Int): List<Int> {
   if (noMoreArguments(args, index) || argumentStartsWithDashes(args, index)) {
-    throw IllegalArgumentException("The argument following '--household-numbers' must be a valid directory name")
+    throw IllegalArgumentException("The argument following '--household-numbers' must be a valid list of numbers")
   }
 
   val householdNumbers = args[index].replace(" ", "").split(",")
@@ -124,25 +146,26 @@ private fun noMoreArguments(args: List<String>, index: Int) = index >= args.size
 
 
 private fun printHelpMessage() {
-  log.info("\n== shipmember 1.0 ==\n" +
+  log.info("\n== shipmember 1.1.0 ==\n" +
       "by Johan Sjöblom\n\n" +
 
       "A program for sending information to members of groups, associations etc. The program will read a csv " +
       "file with membership information, parse it and create personal messages for every recipient in the file.\n\n" +
 
       "Usage:\n" +
-      "java -jar shipmember-1.0.0.jar <arguments>\n\n" +
+      "java -jar shipmember-1.1.0.jar <arguments>\n\n" +
 
       "Valid arguments:\n" +
       "'--input <inputfile>' Mandatory argument. Specifies the csv file with members to read from.\n" +
       "'--output <outputfolder>' Mandatory argument. Specifies where to save PDF files.\n" +
+      "'--email-subject <string>' Optional argument. The subject of emails sent. Enclose multiple words \\\"Like this\\\".\n" +
       "'--household-numbers <list>' Optional argument. Only consider the given list of household numbers (integers). " +
       "Other arguments (such as '--only-non-payers') will apply in addition and may narrow the members down further.\n" +
       "'--only-non-payers' Optional argument. Makes the program only consider the members who have not paid. " +
       "Default (if this argument is not given) is that everyone is included.\n" +
       "'--parse-all' Optional argument. Every household is parsed. Unless narrowed down by other arguments, this is the default.\n" +
-      "'--parse-those-with-emails' Optional argument. Only the households who have an email is parsed.\n" +
-      "'--parse-those-without-emails' Optional argument. Only the households who do not have an email is parsed.\n" +
+      "'--parse-those-with-emails' Optional argument. Only the households who have an email are parsed.\n" +
+      "'--parse-those-without-emails' Optional argument. Only the households who do not have an email are parsed.\n" +
       "'--output-pdf-and-send-email' Optional argument. Will create a PDF for every household and send emails to every " +
       "household that has an email address. Unless overridden by other arguments, this is the default.\n" +
       "'--output-pdf-only' Optional argument. Will create a PDF for every household, but send no emails.\n" +

@@ -6,7 +6,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.sjoblomj.shipmember.dtos.EmailSettings
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class EmailerTests {
@@ -22,7 +21,7 @@ class EmailerTests {
   private lateinit var emailSettings: EmailSettings
 
   @Before fun setup() {
-    emailSettings = EmailSettings(false, "localhost", smtpPort, "apa", "bepa")
+    emailSettings = EmailSettings(false, "localhost", smtpPort, "apa", "bepa", "subject")
 
     assertTrue(smtpServer.isRunning)
   }
@@ -33,6 +32,6 @@ class EmailerTests {
 
     sendEmail(emailSettings, "apa@bepa.com", "This <b>HTML</b> message is a test...")
 
-    assertFalse(smtpServer.mailBox().isEmpty())
+    assertTrue(smtpServer.mailBox().isNotEmpty())
   }
 }

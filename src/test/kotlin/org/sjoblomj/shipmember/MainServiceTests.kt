@@ -27,7 +27,7 @@ class MainServiceTests {
       .relayDomains("apabepa.com")
       .charset("UTF-8"))
 
-  private val emailSettings = EmailSettings(false, "localhost", smtpPort, "apa", "bepa")
+  private val emailSettings = EmailSettings(false, "localhost", smtpPort, "apa", "bepa", "subject")
 
   @Before fun setup() {
     File(outputDirectory).mkdir()
@@ -41,7 +41,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - All member types - Email over PDF`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.ALL, OUTPUTTYPES.EMAIL_OVER_PDF)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.ALL, OUTPUTTYPES.EMAIL_OVER_PDF)
 
     notifyMembers(emailSettings, arguments)
 
@@ -51,7 +51,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - All member types - PDF only`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_ONLY)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_ONLY)
 
     notifyMembers(emailSettings, arguments)
 
@@ -61,7 +61,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - All member types - PDF and email`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL)
 
     notifyMembers(emailSettings, arguments)
 
@@ -71,7 +71,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - All member types - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, listOf(6, 7))
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, listOf(6, 7))
 
     notifyMembers(emailSettings, arguments)
 
@@ -82,7 +82,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members without email - Email over PDF`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
 
     notifyMembers(emailSettings, arguments)
 
@@ -92,7 +92,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members without email - PDF only`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_ONLY)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_ONLY)
 
     notifyMembers(emailSettings, arguments)
 
@@ -102,7 +102,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members without email - PDF and email`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
 
     notifyMembers(emailSettings, arguments)
 
@@ -112,7 +112,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members without email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(7, 9))
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(7, 9))
 
     notifyMembers(emailSettings, arguments)
 
@@ -123,7 +123,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members with email - Email over PDF`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
 
     notifyMembers(emailSettings, arguments)
 
@@ -133,7 +133,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members with email - PDF only`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_ONLY)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_ONLY)
 
     notifyMembers(emailSettings, arguments)
 
@@ -143,7 +143,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members with email - PDF and email`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
 
     notifyMembers(emailSettings, arguments)
 
@@ -153,7 +153,7 @@ class MainServiceTests {
 
   @Test fun `Only non payers - Members with email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(6, 7))
+    val arguments = Arguments(inputFile, outputDirectory, "subject", true, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(6, 7))
 
     notifyMembers(emailSettings, arguments)
 
@@ -167,7 +167,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - All member types - Email over PDF`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.ALL, OUTPUTTYPES.EMAIL_OVER_PDF)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.ALL, OUTPUTTYPES.EMAIL_OVER_PDF)
 
     notifyMembers(emailSettings, arguments)
 
@@ -177,7 +177,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - All member types - PDF only`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_ONLY)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_ONLY)
 
     notifyMembers(emailSettings, arguments)
 
@@ -188,7 +188,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - All member types - PDF and email`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL)
 
     notifyMembers(emailSettings, arguments)
 
@@ -199,7 +199,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - All member types - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, listOf(1, 7, 9))
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.ALL, OUTPUTTYPES.PDF_AND_EMAIL, listOf(1, 7, 9))
 
     notifyMembers(emailSettings, arguments)
 
@@ -211,7 +211,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members without email - Email over PDF`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
 
     notifyMembers(emailSettings, arguments)
 
@@ -221,7 +221,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members without email - PDF only`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_ONLY)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_ONLY)
 
     notifyMembers(emailSettings, arguments)
 
@@ -231,7 +231,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members without email - PDF and email`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
 
     notifyMembers(emailSettings, arguments)
 
@@ -241,7 +241,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members without email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(9))
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITHOUT_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(9))
 
     notifyMembers(emailSettings, arguments)
 
@@ -252,7 +252,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members with email - Email over PDF`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.EMAIL_OVER_PDF)
 
     notifyMembers(emailSettings, arguments)
 
@@ -262,7 +262,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members with email - PDF only`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_ONLY)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_ONLY)
 
     notifyMembers(emailSettings, arguments)
 
@@ -272,7 +272,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members with email - PDF and email`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL)
 
     notifyMembers(emailSettings, arguments)
 
@@ -282,7 +282,7 @@ class MainServiceTests {
 
   @Test fun `Not only non payers - Members with email - PDF and email - Only certain household numbers`() {
     assertTrue(smtpServer.mailBox().isEmpty())
-    val arguments = Arguments(inputFile, outputDirectory, false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(1, 8))
+    val arguments = Arguments(inputFile, outputDirectory, "subject", false, MEMBERTYPES.WITH_EMAILS, OUTPUTTYPES.PDF_AND_EMAIL, listOf(1, 8))
 
     notifyMembers(emailSettings, arguments)
 
@@ -296,6 +296,7 @@ class MainServiceTests {
   }
 
   private fun getPdfsInOutputDirectory() = File(outputDirectory).listFiles()
-        .map { it.name }
-        .filter { it.endsWith(".pdf") }
+        ?.map { it.name }
+        ?.filter { it.endsWith(".pdf") }
+        ?: emptyList()
 }

@@ -72,6 +72,67 @@ class ArgumentParserTests {
     }
   }
 
+  @Test fun `Email subject single word`() {
+    val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject", "Apa"))
+
+    assertEquals(memberFile, args.inputFile)
+    assertEquals("nonExistingDir", args.outputDirectory)
+    assertEquals("Apa", args.emailSubject)
+  }
+
+  @Test fun `Email subject single word with more arguments after`() {
+    val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject", "Apa", "--output-pdf-only"))
+
+    assertEquals(memberFile, args.inputFile)
+    assertEquals("nonExistingDir", args.outputDirectory)
+    assertEquals("Apa", args.emailSubject)
+    assertEquals(OUTPUTTYPES.PDF_ONLY, args.outputType)
+  }
+
+  @Test fun `Email subject single word with quotes with more arguments after`() {
+    val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject", "\"Apa\"", "--output-pdf-only"))
+
+    assertEquals(memberFile, args.inputFile)
+    assertEquals("nonExistingDir", args.outputDirectory)
+    assertEquals("Apa", args.emailSubject)
+    assertEquals(OUTPUTTYPES.PDF_ONLY, args.outputType)
+  }
+
+  @Test fun `Email subject multiple words`() {
+    val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject", "\"Apa", "Bepa", "Cepa\""))
+
+    assertEquals(memberFile, args.inputFile)
+    assertEquals("nonExistingDir", args.outputDirectory)
+    assertEquals("Apa Bepa Cepa", args.emailSubject)
+  }
+
+  @Test fun `Email subject multiple words with more arguments after`() {
+    val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject", "\"Apa", "Bepa", "Cepa\"", "--output-pdf-only"))
+
+    assertEquals(memberFile, args.inputFile)
+    assertEquals("nonExistingDir", args.outputDirectory)
+    assertEquals("Apa Bepa Cepa", args.emailSubject)
+    assertEquals(OUTPUTTYPES.PDF_ONLY, args.outputType)
+  }
+
+  @Test fun `Email subject with space after quote`() {
+    assertFailsWith(IllegalArgumentException::class) {
+      parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject", "\"", "Apa", "Bepa", "Cepa\"", "--output-pdf-only"))
+    }
+  }
+
+  @Test fun `Email subject without subject`() {
+    assertFailsWith(IllegalArgumentException::class) {
+      parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject"))
+    }
+  }
+
+  @Test fun `Email subject multiple words without ending quote`() {
+    assertFailsWith(IllegalArgumentException::class) {
+      parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--email-subject", "\"Apa", "Bepa", "Cepa"))
+    }
+  }
+
   @Test fun `Input and output and nonExistingDir flag`() {
     val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir"))
 
@@ -144,6 +205,13 @@ class ArgumentParserTests {
     val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--household-numbers", "1,2,71,38"))
 
     assertEquals(listOf(1, 2, 71, 38), args.householdNumbers)
+  }
+
+  @Test fun `Household numbers with argument after`() {
+    val args = parseArgs(listOf("--input", memberFile, "--output", "nonExistingDir", "--household-numbers", "1,2,71,38", "--output-pdf-only"))
+
+    assertEquals(listOf(1, 2, 71, 38), args.householdNumbers)
+    assertEquals(OUTPUTTYPES.PDF_ONLY, args.outputType)
   }
 
   @Test fun `UnknownArgument throws Exception`() {
