@@ -1,5 +1,6 @@
 package org.sjoblomj.shipmember.dtos
 
+import javax.mail.internet.InternetAddress
 import kotlin.reflect.KProperty1
 
 class Household(val members: List<Member>) {
@@ -10,12 +11,16 @@ class Household(val members: List<Member>) {
     }
     val valuesThatMustNotDifferWithinHousehold = listOf(
         Pair(Member::householdNo, "householdNo"),
-        Pair(Member::street, "street"),
-        Pair(Member::address, "address"),
         Pair(Member::type, "membership type"),
         Pair(Member::hasPaid, "paid")
     )
-    assertOneValue(valuesThatMustNotDifferWithinHousehold)
+    assertExactlyOneValue(valuesThatMustNotDifferWithinHousehold)
+
+    val streetAddress = listOf(
+        Pair(Member::street, "street"),
+        Pair(Member::address, "address")
+    )
+    assertAtMostOneValue(streetAddress)
 
     val valuesThatMustNotBeBlank = listOf(
         Pair(Member::firstName, "first name"),
@@ -27,9 +32,24 @@ class Household(val members: List<Member>) {
     if (hasSeveralMembers() && members[0].type != "Familj") {
       throw IllegalArgumentException("The household with number ${members[0].householdNo} are not all of membership type 'Familj'")
     }
+    assertEmailIsValid()
   }
 
-  private fun assertOneValue(list: List<Pair<KProperty1<Member, Any>, String>>) {
+  private fun assertEmailIsValid() {
+    val email = getFirstEmail()
+    if (email != "") {
+      try {
+        InternetAddress(email).validate()
+        if (!email.contains(".")) {
+          throw IllegalArgumentException("Email must contain '.'")
+        }
+      } catch (e: Exception) {
+        throw IllegalArgumentException("Email '$email' did not validate")
+      }
+    }
+  }
+
+  private fun assertExactlyOneValue(list: List<Pair<KProperty1<Member, Any>, String>>) {
     for (pair in list) {
       val property = pair.first
       val msg = pair.second
@@ -38,6 +58,18 @@ class Household(val members: List<Member>) {
       if (numberOfNonBlankValuesPresent == 0) {
         throw IllegalArgumentException("The household with number ${members[0].householdNo} has no $msg values")
       } else if (numberOfNonBlankValuesPresent > 1) {
+        throw IllegalArgumentException("The household with number ${members[0].householdNo} has different $msg values")
+      }
+    }
+  }
+
+  private fun assertAtMostOneValue(list: List<Pair<KProperty1<Member, Any>, String>>) {
+    for (pair in list) {
+      val property = pair.first
+      val msg = pair.second
+
+      val numberOfNonBlankValuesPresent = findNumberOfNonBlankValuesPresent(property)
+      if (numberOfNonBlankValuesPresent > 1) {
         throw IllegalArgumentException("The household with number ${members[0].householdNo} has different $msg values")
       }
     }

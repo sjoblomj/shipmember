@@ -135,26 +135,61 @@ class HouseholdTests {
     }
   }
 
-  @Test fun `Some streets must have values`() {
-    val street = ""
+  @Test fun `Must have membership type`() {
+    assertFailsWith(IllegalArgumentException::class) {
+      Household(listOf(member.copy(firstName = "Apa", type = "")))
+    }
+  }
 
+  @Test fun `Must not have different streets values`() {
     assertFailsWith(IllegalArgumentException::class) {
       Household(listOf(
-          member.copy(firstName = "Apa", street = street),
-          member.copy(firstName = "Bepa", street = street)
+          member.copy(firstName = "Apa", street = "Apastreet"),
+          member.copy(firstName = "Bepa", street = "Bepastreet")
       ))
     }
   }
 
-  @Test fun `Some addresses must have values`() {
-    val address = ""
-
+  @Test fun `Must not have different address values`() {
     assertFailsWith(IllegalArgumentException::class) {
       Household(listOf(
-          member.copy(firstName = "Apa", address = address),
-          member.copy(firstName = "Bepa", address = address)
+          member.copy(firstName = "Apa", address = "Apaaddress"),
+          member.copy(firstName = "Bepa", address = "Bepaaddress")
       ))
     }
+  }
+
+  @Test fun `Must have valid e-mail`() {
+    assertFailsWith(IllegalArgumentException::class) {
+      Household(listOf(member.copy(firstName = "Apa", email = "apa")))
+    }
+    assertFailsWith(IllegalArgumentException::class) {
+      Household(listOf(member.copy(firstName = "Apa", email = "apa.bepa.cepa")))
+    }
+    assertFailsWith(IllegalArgumentException::class) {
+      Household(listOf(member.copy(firstName = "Apa", email = "apa@bepa.cepa, cepa@bepa.apa")))
+    }
+    assertFailsWith(IllegalArgumentException::class) {
+      Household(listOf(member.copy(firstName = "Apa", email = "apa@bepa.cepa; cepa@bepa.apa")))
+    }
+    assertFailsWith(IllegalArgumentException::class) {
+      Household(listOf(member.copy(firstName = "Apa", email = "apa@@bepa.cepa")))
+    }
+    assertFailsWith(IllegalArgumentException::class) {
+      Household(listOf(member.copy(firstName = "Apa", email = "apa@bepa")))
+    }
+  }
+
+  @Test fun `Does not require street`() {
+    Household(listOf(member.copy(firstName = "Apa", street = "")))
+  }
+
+  @Test fun `Does not require address`() {
+    Household(listOf(member.copy(firstName = "Apa", address = "")))
+  }
+
+  @Test fun `Does not require email`() {
+    Household(listOf(member.copy(firstName = "Apa", email = "")))
   }
 
   @Test fun `Has not paid`() {
