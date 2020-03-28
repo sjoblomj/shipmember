@@ -14,7 +14,7 @@ class LatexOutputterTests {
   private val outputDirectory = "target/testfiles/"
   private val latexCommand = "\\newcommand{\\"
 
-  private val member = Member(1, "Apa", "Bepa", "Enskild medlem", "Apabepastraße 71", "123 City", "71", "1234", "cepa@bepa.apa", "0")
+  private val member = Member(1, "Apa", "Bepa", "Enskild medlem", "Apabepastraße 71", "123 City", "71", "1234", "apabepacepa@mailinator.com", "0")
 
   private val household = Household(listOf(
       member.copy(firstName = "Apa", type = "Familj", street = "", address = "", telephone = "71", mobile = "", email = ""),
@@ -42,7 +42,7 @@ class LatexOutputterTests {
     assertTrue(content.contains("${latexCommand}memberaddress}{123 City}"))
     assertTrue(content.contains("${latexCommand}membertelephone}{71}"))
     assertTrue(content.contains("${latexCommand}membermobile}{1234}"))
-    assertTrue(content.contains("${latexCommand}memberemail}{cepa@bepa.apa}"))
+    assertTrue(content.contains("${latexCommand}memberemail}{apabepacepa@mailinator.com}"))
     assertTrue(content.contains("${latexCommand}memberhasPaid}{false}"))
     assertTrue(content.contains("${latexCommand}memberhasSeveralMembers}{false}"))
 
@@ -79,7 +79,7 @@ class LatexOutputterTests {
     assertTrue(content.contains("${latexCommand}memberaddress}{123 City}"))
     assertTrue(content.contains("${latexCommand}membertelephone}{71}"))
     assertTrue(content.contains("${latexCommand}membermobile}{1234}"))
-    assertTrue(content.contains("${latexCommand}memberemail}{cepa@bepa.apa}"))
+    assertTrue(content.contains("${latexCommand}memberemail}{apabepacepa@mailinator.com}"))
     assertTrue(content.contains("${latexCommand}memberhasPaid}{false}"))
     assertTrue(content.contains("${latexCommand}memberhasSeveralMembers}{true}"))
 
@@ -121,7 +121,7 @@ class LatexOutputterTests {
   }
 
   @Test fun `Single member with underscore in email`() {
-    createLatexFile(Household(listOf(member.copy(email = "Apa_Bepa@cepa.depa"))), outputDirectory)
+    createLatexFile(Household(listOf(member.copy(email = "Apa_Bepa@mailinator.com"))), outputDirectory)
 
     val content = readFileContent()
     assertTrue(content.contains("${latexCommand}memberfirstNames}{Apa}"))
@@ -131,7 +131,7 @@ class LatexOutputterTests {
     assertTrue(content.contains("${latexCommand}memberaddress}{123 City}"))
     assertTrue(content.contains("${latexCommand}membertelephone}{71}"))
     assertTrue(content.contains("${latexCommand}membermobile}{1234}"))
-    assertTrue(content.contains("${latexCommand}memberemail}{Apa\\_Bepa@cepa.depa}"))
+    assertTrue(content.contains("${latexCommand}memberemail}{Apa\\_Bepa@mailinator.com}"))
     assertTrue(content.contains("${latexCommand}memberhasPaid}{false}"))
     assertTrue(content.contains("${latexCommand}memberhasSeveralMembers}{false}"))
 

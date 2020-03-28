@@ -16,7 +16,7 @@ Several members (i.e. a family, normally) may make up a single household. Inform
 ## Technical
 Compile and build using `mvn clean install`
 
-After executing the above command, a jar-file is created in the target directory. Run it using `java -jar shipmember-1.1.0.jar <arguments>`
+After executing the above command, a jar-file is created in the target directory. Run it using `java -jar shipmember-1.1.1.jar <arguments>`
 For information about the arguments, see below.
 
 ### Arguments

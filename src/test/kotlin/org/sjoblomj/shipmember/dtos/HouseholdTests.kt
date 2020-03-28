@@ -8,7 +8,7 @@ import kotlin.test.assertTrue
 
 class HouseholdTests {
 
-  private val member = Member(1, "Apa", "Bepa", "Familj", "Apabepastraße 71", "123 City", "", "1234", "cepa@bepa.apa", "0")
+  private val member = Member(1, "Apa", "Bepa", "Familj", "Apabepastraße 71", "123 City", "", "1234", "apabepacepa@mailinator.com", "0")
 
   private val household = Household(listOf(
       member.copy(firstName = "Apa", street = "", address = "", telephone = "", mobile = "", email = ""),
@@ -213,7 +213,7 @@ class HouseholdTests {
   }
 
   @Test fun `Finds first e-mail`() {
-    assertEquals("cepa@bepa.apa", household.getFirstEmail())
+    assertEquals("apabepacepa@mailinator.com", household.getFirstEmail())
   }
 
   @Test fun `Finds first mobile phone`() {

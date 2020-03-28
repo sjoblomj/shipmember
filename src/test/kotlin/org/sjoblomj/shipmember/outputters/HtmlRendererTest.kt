@@ -10,7 +10,7 @@ class HtmlRendererTest {
 
   private val testTemplate = "templates/test.html"
 
-  private val member = Member(1, "Apa", "Bepa", "Familj", "Apabepastraße 71", "123 City", "71", "1234", "cepa@bepa.apa", "0")
+  private val member = Member(1, "Apa", "Bepa", "Familj", "Apabepastraße 71", "123 City", "71", "1234", "apabepacepa@mailinator.com", "0")
 
   private val household = Household(listOf(
       member.copy(firstName = "Apa", street = "", address = "", telephone = "71", mobile = "", email = ""),
@@ -28,7 +28,7 @@ class HtmlRendererTest {
     assertTrue(output.contains("We have registered that you live on Apabepastraße 71, 123 City"))
     assertTrue(output.contains("Telephone number: 71"))
     assertTrue(output.contains("Mobile phone number: 1234"))
-    assertTrue(output.contains("Email: cepa@bepa.apa"))
+    assertTrue(output.contains("Email: apabepacepa@mailinator.com"))
     assertTrue(output.contains("You and all your little kids in your Familj can join us for 400 sek."))
   }
 
@@ -49,7 +49,7 @@ class HtmlRendererTest {
         "    <td>123 City</td>\n" +
         "    <td>71</td>\n" +
         "    <td>1234</td>\n" +
-        "    <td>cepa@bepa.apa</td>\n"))
+        "    <td>apabepacepa@mailinator.com</td>\n"))
 
     assertTrue(output.contains("    <td>Cepa</td>\n" +
         "    <td>Fepa</td>\n" +

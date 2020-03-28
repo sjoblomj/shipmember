@@ -1,6 +1,6 @@
 package org.sjoblomj.shipmember.dtos
 
-import javax.mail.internet.InternetAddress
+import org.apache.commons.validator.routines.EmailValidator
 import kotlin.reflect.KProperty1
 
 class Household(val members: List<Member>) {
@@ -37,15 +37,8 @@ class Household(val members: List<Member>) {
 
   private fun assertEmailIsValid() {
     val email = getFirstEmail()
-    if (email != "") {
-      try {
-        InternetAddress(email).validate()
-        if (!email.contains(".")) {
-          throw IllegalArgumentException("Email must contain '.'")
-        }
-      } catch (e: Exception) {
-        throw IllegalArgumentException("Email '$email' did not validate")
-      }
+    if (email != "" && !EmailValidator.getInstance().isValid(email)) {
+      throw IllegalArgumentException("Email '$email' did not validate")
     }
   }
 

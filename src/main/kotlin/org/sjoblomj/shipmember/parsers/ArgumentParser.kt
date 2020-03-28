@@ -146,14 +146,14 @@ private fun noMoreArguments(args: List<String>, index: Int) = index >= args.size
 
 
 private fun printHelpMessage() {
-  log.info("\n== shipmember 1.1.0 ==\n" +
+  log.info("\n== shipmember 1.1.1 ==\n" +
       "by Johan Sjöblom\n\n" +
 
       "A program for sending information to members of groups, associations etc. The program will read a csv " +
       "file with membership information, parse it and create personal messages for every recipient in the file.\n\n" +
 
       "Usage:\n" +
-      "java -jar shipmember-1.1.0.jar <arguments>\n\n" +
+      "java -jar shipmember-1.1.1.jar <arguments>\n\n" +
 
       "Valid arguments:\n" +
       "'--input <inputfile>' Mandatory argument. Specifies the csv file with members to read from.\n" +
