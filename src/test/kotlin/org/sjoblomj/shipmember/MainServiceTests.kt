@@ -128,7 +128,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertEquals(listOf("sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(listOf())
+    assertOutputDirectoryContains(emptyList())
   }
 
   @Test fun `Only non payers - Members with email - PDF only`() {
@@ -158,7 +158,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(listOf())
+    assertOutputDirectoryContains(emptyList())
   }
 
 
@@ -171,7 +171,7 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com", "gm@apabepa.com"), smtpServer.mailBox().map { it.to })
     assertOutputDirectoryContains(listOf("SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf"))
   }
 
@@ -183,7 +183,7 @@ class MainServiceTests {
 
     assertTrue(smtpServer.mailBox().isEmpty())
     assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
-        "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
+        "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf", "Greta_Malmhalm.pdf"))
   }
 
   @Test fun `Not only non payers - All member types - PDF and email`() {
@@ -192,9 +192,9 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com", "gm@apabepa.com"), smtpServer.mailBox().map { it.to })
     assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "SteinBjarne_Østgran.pdf", "GubbGunnar_Gammelgubbe.pdf",
-        "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
+        "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf", "Greta_Malmhalm.pdf"))
   }
 
   @Test fun `Not only non payers - All member types - PDF and email - Only certain household numbers`() {
@@ -256,8 +256,8 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(listOf())
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com", "gm@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(emptyList())
   }
 
   @Test fun `Not only non payers - Members with email - PDF only`() {
@@ -267,7 +267,7 @@ class MainServiceTests {
     notifyMembers(emailSettings, arguments)
 
     assertTrue(smtpServer.mailBox().isEmpty())
-    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf", "Greta_Malmhalm.pdf"))
   }
 
   @Test fun `Not only non payers - Members with email - PDF and email`() {
@@ -276,8 +276,8 @@ class MainServiceTests {
 
     notifyMembers(emailSettings, arguments)
 
-    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com"), smtpServer.mailBox().map { it.to })
-    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf"))
+    assertEquals(listOf("maal@apabepa.com", "stan@apabepa.com", "sa@apabepa.com", "gm@apabepa.com"), smtpServer.mailBox().map { it.to })
+    assertOutputDirectoryContains(listOf("Sophia_Andrésen.pdf", "Algren,_Stengren_(Petter,_Malin,_Staffan,_Nils,_Lena).pdf", "Stina_Andropovich.pdf", "Greta_Malmhalm.pdf"))
   }
 
   @Test fun `Not only non payers - Members with email - PDF and email - Only certain household numbers`() {

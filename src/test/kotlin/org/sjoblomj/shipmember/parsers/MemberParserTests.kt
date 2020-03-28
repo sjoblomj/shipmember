@@ -116,7 +116,7 @@ class MemberParserTests {
   @Test fun `Parse file`() {
     val list = parseFile("src/test/resources/members.csv")
 
-    assertEquals(5, list.size)
+    assertEquals(6, list.size)
     assertEquals("Petter", list[0].members[0].firstName)
     assertEquals("Malin", list[0].members[1].firstName)
     assertEquals("Staffan", list[0].members[2].firstName)
@@ -126,6 +126,7 @@ class MemberParserTests {
     assertEquals("Stein-Bjarne", list[2].members[0].firstName)
     assertEquals("Sophia", list[3].members[0].firstName)
     assertEquals("Gubb-Gunnar", list[4].members[0].firstName)
+    assertEquals("Greta", list[5].members[0].firstName)
   }
 
 

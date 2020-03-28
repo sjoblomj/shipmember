@@ -13,7 +13,7 @@ private val log = KotlinLogging.logger {}
 fun notifyMembers(emailSettings: EmailSettings, arguments: Arguments) {
   var households = parseFile(arguments.inputFile)
   if (arguments.onlyNonPayers)
-    households = households.filter { !it.hasPaid() }
+    households = households.filter { !it.hasPaid() && it.getType() != "Hedersmedlem" }
 
   if (arguments.householdNumbers.isNotEmpty())
     households = households.filter { arguments.householdNumbers.contains(it.getHouseholdNumber()) }
