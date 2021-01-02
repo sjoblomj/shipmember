@@ -2,6 +2,8 @@ package org.sjoblomj.shipmember
 
 import com.github.sleroy.fakesmtp.core.ServerConfiguration
 import com.github.sleroy.junit.mail.server.test.FakeSmtpRule
+import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -10,12 +12,16 @@ import org.sjoblomj.shipmember.dtos.Arguments
 import org.sjoblomj.shipmember.dtos.EmailSettings
 import org.sjoblomj.shipmember.dtos.MEMBERTYPES
 import org.sjoblomj.shipmember.dtos.OUTPUTTYPES
+import org.sjoblomj.shipmember.outputters.latexCompilationServerPort
+import org.sjoblomj.shipmember.outputters.url
+import org.springframework.http.MediaType
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class MainServiceTests {
 
+  private val wiremockServer = WireMockServer(latexCompilationServerPort)
   private val smtpPort = 2525
 
   private val inputFile = "src/test/resources/members.csv"
@@ -30,6 +36,8 @@ class MainServiceTests {
   private val emailSettings = EmailSettings(false, "localhost", smtpPort, "apa", "bepa", "subject")
 
   @Before fun setup() {
+    wiremockServer.start()
+    mockServer()
     File(outputDirectory).mkdir()
 
     assertTrue(smtpServer.isRunning)
@@ -37,6 +45,7 @@ class MainServiceTests {
 
   @After fun teardown() {
     File(outputDirectory).deleteRecursively()
+    wiremockServer.stop()
   }
 
   @Test fun `Only non payers - All member types - Email over PDF`() {
@@ -292,11 +301,22 @@ class MainServiceTests {
 
 
   private fun assertOutputDirectoryContains(content: List<String>) {
-    assertEquals(content, getPdfsInOutputDirectory())
+    assertTrue(content.containsAll(getPdfsInOutputDirectory()))
   }
 
   private fun getPdfsInOutputDirectory() = File(outputDirectory).listFiles()
         ?.map { it.name }
         ?.filter { it.endsWith(".pdf") }
         ?: emptyList()
+
+
+  private fun mockServer(mockedStatus: Int = 200, delay: Int = 0) {
+    wiremockServer.stubFor(
+            WireMock.post(WireMock.urlEqualTo(url))
+                    .willReturn(WireMock.aResponse()
+                            .withHeader("Content-Type", MediaType.APPLICATION_PDF.toString())
+                            .withBody("mocked_response".toByteArray())
+                            .withStatus(mockedStatus)
+                            .withFixedDelay(delay)))
+  }
 }

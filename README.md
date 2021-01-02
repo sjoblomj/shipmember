@@ -16,7 +16,7 @@ Several members (i.e. a family, normally) may make up a single household. Inform
 ## Technical
 Compile and build using `mvn clean install`
 
-After executing the above command, a jar-file is created in the target directory. Run it using `java -jar shipmember-1.1.1.jar <arguments>`
+After executing the above command, a jar-file is created in the target directory. Run it using `java -jar shipmember-1.1.2.jar <arguments>`
 For information about the arguments, see below.
 
 ### Arguments
@@ -25,7 +25,7 @@ The following are valid arguments to the program:
 * `--output <outputfolder>` Mandatory argument. Specifies where to save PDF files.
 * `--email-subject <string>` Optional argument. The subject of emails sent. Enclose multiple words \\\"Like this\\\".
 * `--household-numbers <list>` Optional argument. Only consider the given list of household numbers (integers). Other arguments (such as `--only-non-payers`) will apply in addition and may narrow the members down further.
-* `--only-non-payers` Optional argument. Makes the program only consider the members who have not paid. Default (if this argument is not given) is that everyone is included.
+* `--only-non-payers` Optional argument. Makes the program only consider the households who have not paid. Default (if this argument is not given) is that every household is included.
 * `--parse-all` Optional argument. Every household is parsed. Unless narrowed down by other arguments, this is the default.
 * `--parse-those-with-emails` Optional argument. Only the households who have an email are parsed.
 * `--parse-those-without-emails` Optional argument. Only the households who do not have an email are parsed.
@@ -40,9 +40,7 @@ Emails are sent over SMTP. You will need to fill in the details (host name, port
 ### Templating
 The information to be sent by email is created using the Thymeleaf templating engine. The template is located in src/main/resources/templates/email.html
 
-The PDFs are created using the LaTeX typesetting system. LaTeX is not included in this program, so it needs to be callable from the computer that this program is used on. When run, the program will create a file called personalinfo.tex with information about the current household. It is included in the LaTeX template, which is located in src/main/resources/templates/invite.tex
-
-The LaTeX template is not straight forward to use for the inexperienced since it uses Xetex and fancy custom ornaments. Some help is given in the invite.tex file, but consider replacing the template with your own if you have troubles getting it to work.
+The PDFs are created using the LaTeX typesetting system. LaTeX is not included in this program, but for convenience, one can use the [latex-compile-server](https://github.com/sjoblomj/latex-compile-server) which accepts files over REST, compiles them into a PDF and sends them back. So, to use the PDF features of shipmember you simply need to run the latex-compile-server. Shipmember will create a file called personalinfo.tex with information about the current household. It is included by the LaTeX template, which is located in src/main/resources/templates/invite.tex. These two *.tex-files are automatically sent to the latex-compile-server.
 
 
 ## About
@@ -51,5 +49,3 @@ Written by Johan Sjöblom.
 Written in Kotlin, using Maven and Spring. It has been mutation tested using [pitest](https://pitest.org/).
 
 The name **shipmember** is a play on the word *membership* and the fact that the domain it was written for was *member*s of a sailing association that had several *ship*s.
-
-The LaTeX ornaments in the src/main/resources/pgfornament.zip file belongs to their respective authors and is not covered by the license of this program.

@@ -1,16 +1,21 @@
 package org.sjoblomj.shipmember.outputters
 
+import com.github.tomakehurst.wiremock.WireMockServer
+import com.github.tomakehurst.wiremock.client.WireMock
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.jupiter.api.assertThrows
 import org.sjoblomj.shipmember.dtos.Household
 import org.sjoblomj.shipmember.dtos.Member
+import org.springframework.http.MediaType
 import java.io.File
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class LatexOutputterTests {
 
+  private val wiremockServer = WireMockServer(latexCompilationServerPort)
   private val outputDirectory = "target/testfiles/"
   private val latexCommand = "\\newcommand{\\"
 
@@ -25,10 +30,15 @@ class LatexOutputterTests {
 
   @Before fun setup() {
     File(outputDirectory).mkdir()
+
+    timeout = 1L
+    wiremockServer.start()
+    mockServer()
   }
 
   @After fun teardown() {
     File(outputDirectory).deleteRecursively()
+    wiremockServer.stop()
   }
 
   @Test fun `Single member with all values`() {
@@ -138,22 +148,28 @@ class LatexOutputterTests {
     assertTrue(File("$outputDirectory/Apa_Bepa.pdf").exists())
   }
 
-  @Test fun `Log file and auxiliaries are deleted on success`() {
-    createLatexFile(Household(listOf(member)), outputDirectory)
+  @Test fun `Request throws error`() {
+    mockServer(500)
 
-    assertTrue(File("$outputDirectory/Apa_Bepa.pdf").exists())
-    assertFalse(File("$outputDirectory/Apa_Bepa.log").exists())
-    assertFalse(File("$outputDirectory/Apa_Bepa.aux").exists())
-  }
-
-  @Test fun `Single member with illegal characters -- log file and auxiliaries are not deleted`() {
-    createLatexFile(Household(listOf(member.copy(firstName = "Apa}"))), outputDirectory)
+    assertThrows<Exception> {
+      createLatexFile(Household(listOf(member.copy(firstName = "Apa}"))), outputDirectory)
+    }
 
     assertFalse(File("$outputDirectory/Apa_Bepa.pdf").exists())
-    assertTrue(File("$outputDirectory/Apa_Bepa.log").exists())
   }
 
-  @Test fun `Personal Info File already exists -- is deleted`() {
+  @Test fun `Request times out`() {
+    timeout = 2L
+    mockServer(200, (timeout * 1000).toInt())
+
+    assertThrows<Exception> {
+      createLatexFile(Household(listOf(member)), outputDirectory)
+    }
+
+    assertFalse(File("$outputDirectory/Apa_Bepa.pdf").exists())
+  }
+
+  @Test fun `Personal Info File already exists -- content is overwritten`() {
     val fileContent = "The personal info file already exists and has some old content"
     val file = File("$outputDirectory/$personalInfoFile")
     file.writeText(fileContent)
@@ -168,5 +184,16 @@ class LatexOutputterTests {
     val file = File("$outputDirectory/$personalInfoFile")
     assertTrue(file.exists())
     return file.readText()
+  }
+
+
+  private fun mockServer(mockedStatus: Int = 200, delay: Int = 0) {
+    wiremockServer.stubFor(
+            WireMock.post(WireMock.urlEqualTo(url))
+                    .willReturn(WireMock.aResponse()
+                            .withHeader("Content-Type", MediaType.APPLICATION_PDF.toString())
+                            .withBody("mocked_response".toByteArray())
+                            .withStatus(mockedStatus)
+                            .withFixedDelay(delay)))
   }
 }

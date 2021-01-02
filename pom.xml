@@ -5,7 +5,7 @@
 
     <groupId>org.sjoblomj</groupId>
     <artifactId>shipmember</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
 
     <name>shipmember</name>
@@ -24,6 +24,7 @@
         <commons-validator.version>1.6</commons-validator.version>
         <jodd-mail.version>5.1.4</jodd-mail.version>
         <fakesmtp-junit-runner.version>0.1.1</fakesmtp-junit-runner.version>
+        <wiremock.version>2.27.1</wiremock.version>
         <pitest-maven.version>1.5.0</pitest-maven.version>
         <kotlin.version>1.3.21</kotlin.version>
         <java.version>1.8</java.version>
@@ -36,6 +37,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>io.github.microutils</groupId>
@@ -74,6 +79,12 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-standalone</artifactId>
+            <version>${wiremock.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.github.sleroy</groupId>
             <artifactId>fakesmtp-junit-runner</artifactId>

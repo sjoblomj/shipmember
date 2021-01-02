@@ -146,14 +146,14 @@ private fun noMoreArguments(args: List<String>, index: Int) = index >= args.size
 
 
 private fun printHelpMessage() {
-  log.info("\n== shipmember 1.1.1 ==\n" +
+  log.info("\n== shipmember 1.1.2 ==\n" +
       "by Johan Sjöblom\n\n" +
 
       "A program for sending information to members of groups, associations etc. The program will read a csv " +
       "file with membership information, parse it and create personal messages for every recipient in the file.\n\n" +
 
       "Usage:\n" +
-      "java -jar shipmember-1.1.1.jar <arguments>\n\n" +
+      "java -jar shipmember-1.1.2.jar <arguments>\n\n" +
 
       "Valid arguments:\n" +
       "'--input <inputfile>' Mandatory argument. Specifies the csv file with members to read from.\n" +
@@ -161,8 +161,8 @@ private fun printHelpMessage() {
       "'--email-subject <string>' Optional argument. The subject of emails sent. Enclose multiple words \\\"Like this\\\".\n" +
       "'--household-numbers <list>' Optional argument. Only consider the given list of household numbers (integers). " +
       "Other arguments (such as '--only-non-payers') will apply in addition and may narrow the members down further.\n" +
-      "'--only-non-payers' Optional argument. Makes the program only consider the members who have not paid. " +
-      "Default (if this argument is not given) is that everyone is included.\n" +
+      "'--only-non-payers' Optional argument. Makes the program only consider the households who have not paid. " +
+      "Default (if this argument is not given) is that every household is included.\n" +
       "'--parse-all' Optional argument. Every household is parsed. Unless narrowed down by other arguments, this is the default.\n" +
       "'--parse-those-with-emails' Optional argument. Only the households who have an email are parsed.\n" +
       "'--parse-those-without-emails' Optional argument. Only the households who do not have an email are parsed.\n" +
